@@ -10,8 +10,21 @@
 #define ENDL std::endl
 
 int main() {
+    unsigned int location = 0; //dont know what im doing here 
     listOfCommands(); 
 }
+
+void newTaxon() {
+
+}
+
+void newFile() {}
+
+void findFile() {} 
+
+void findFileName() {} 
+
+void findFileCategory() {}
 
 void listOfCommands() {
     std::string input = "";
@@ -26,22 +39,23 @@ void listOfCommands() {
     Press q to quit./n" << ENDL;
 
     if (input == "1") {
-
+        newTaxon();
     }
     else if (input == "2") {
-
+        newFile();
     }
     else if (input == "3") {
-
+        findFile();
     }
     else if (input == "4") {
-
+        findFileName();
     }
     else if (input == "5") {
-
+        findFileCategory();
     }
     else if (input == "q") {
-
+        COUT << "Bye!" << ENDL;
+        break;
     }
     else {
         COUT << "Please enter a valid command, or q to quit the program." << ENDL;
