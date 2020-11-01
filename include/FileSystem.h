@@ -1,7 +1,9 @@
+//File: FileSystem.h
+//Author: Catherine Evans
+
+
 #ifndef FILESYSTEM_H
 #define FILESYSTEM_H
-
-// author: Catherine Evans 
 
 #include "Edge.h"
 #include "File.h"
@@ -11,19 +13,18 @@
 #define CIN std::cin
 #define ENDL std::endl
 
-// CREATE FILESYSTEM OBJECT
-// can't create without tree code yet 
+// A couple of things in this file need to be updated according to the Tree.h file once it's created 
 
 template<class T>
 class FileSystem {
     private:
         Graph<T> graph;
         Tree<T> tree; 
-        int location; //!!!!!!!!!!!!!!!
+        int location; //value of node at current location
 
     public: 
         void newTaxon(T data) {
-            tree.add_node(data); //no such method exists yet, change fxn name 
+            tree.add_node(data); //no such method exists yet, change fxn name accordingly 
         }
 
         void newFile(File inputFile) {
@@ -31,8 +32,8 @@ class FileSystem {
         }
 
         void findFile(File inputFile) {
+            //right now, this function is basically the same as the one below. This one could potentially be a search by location as well 
             tempLocation = -1;
-            // is this the way you guys want to search 
             for (int i = 0; i < graph.verts.length(); ++i) {
                 if (graph.verts[i] == inputFile) {
                     tempLocation = graph.verts[i];
@@ -42,7 +43,7 @@ class FileSystem {
             if (tempLocation == -1) {
                 COUT << "Our apologies, the requested file does not exist in your catalog. " << ENDL;
             }
-            //should have some kind of location modifier so when you go to this node you stay, if user wants to add a file here or whatever 
+            
         } 
 
         void findFileName(File inputFile) {
@@ -59,11 +60,11 @@ class FileSystem {
         } 
 
         void findFileCategory() {
-            //can't do this yet 
+            //to be implemented once Tree.h is done 
         }
 }
 
-//not sure if this is the proper place to put this lol 
+//menu of actions for the user to perform with taxonomy  
 void listOfCommands() {
     std::string input = "";
 
