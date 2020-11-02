@@ -22,6 +22,12 @@ class FileSystem {
         Tree<T> tree; 
         int location; //value of node at current location
 
+        //Default Constructor 
+        FileSystem(): graph(), tree(), location() {}
+
+        //Overloaded Constructor
+        FileSystem( Graph<T> graphIn, Tree<t> treeIn, int locIn) : graph(graphIn), tree(treeIn), location(locIn) {}
+
     public: 
         void newTaxon(T data) {
             tree.add_node(data); //no such method exists yet, change fxn name accordingly 
@@ -76,6 +82,7 @@ void listOfCommands() {
     Press 4 to search for a file by name./n
     Press 5 to search for a file by category./n
     Press q to quit./n" << ENDL;
+    //adding real text file to filesystem in c++ (loading into file struct then into filesystem)
 
     if (input == "1") {
         newTaxon();
