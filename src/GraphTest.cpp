@@ -24,8 +24,8 @@ int main() {
 
     graph.print();
 
-        graph.del_vert(4);
+    graph.del_vert(4);
 
-graph.print();
+    graph.print();
 
 }
