@@ -8,7 +8,7 @@ int main() {
     Graph<int> graph;
     std::vector<int> verts {1, 3, 6, 7, 5, 4, 2, 8, 9};
     
-    for (int i = 0; i < verts.size(); i++) {
+    for (unsigned int i = 0; i < verts.size(); i++) {
         graph.add_vert(verts[i]);
     }
 
