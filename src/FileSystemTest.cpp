@@ -97,7 +97,7 @@ void printFileSystem(&FileSystem fs){
 * This function prints out all of the taxons in the
 * passed FileSystem object
 *************************************/
-void printFileSystem(&FileSystem fs){
+void printTaxons(&FileSystem fs){
   COUT << fs.getTaxons() << ENDL;
 }
 
@@ -214,19 +214,19 @@ void commandMenu(&FileSystem fs) {
       }
       // search for a file by name
       else if (input == '5') {
-        ;
+        searchByName(fs);
       }
       // search for a file by taxon
       else if (input == '6') {
-        ;
+        searchByTaxon(fs);
       }
       // delete a file
       else if (input == '7') {
-        ;
+        deleteFile(fs);
       }
       // delete a taxon
       else if (input == '8') {
-        ;
+        deleteTaxon(fs);
       }
       // quit
       else if (input == 'q') {
