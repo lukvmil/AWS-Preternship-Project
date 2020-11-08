@@ -6,26 +6,27 @@
 
 #include "Vertex.h"
 
-template<class T>
+template<class V>
 class Graph {
 protected:
-    std::vector< Vertex<T> > verts;
+    std::vector<V> verts;
 
 public:
-    Graph() : verts() {}
+    Graph(): verts() {}
 
     virtual ~Graph() {}
 
-    void add_vert(Vertex<T> vert) {
+    void add_vert(V vert) {
         verts.push_back(vert);
     }
 
-    void add_vert(T data) {
-        verts.push_back(Vertex<T>(data));
-    }
-
-    void add_edge(unsigned int origin, unsigned int dest) {
-        verts[origin].add_edge(dest);
+    void add_edge(unsigned int origin, unsigned int dest) {\
+        // prevents a loop in the graph (edge to itself)
+        if (origin != dest) {
+            verts[origin].add_edge(dest);
+        } else {
+            std::cout << "Error: Loopback protection, edge wasn't added." << std::endl;
+        }
     }
 
     void del_vert(unsigned int loc) {
@@ -36,7 +37,7 @@ public:
         }
     }
 
-    Vertex<T> get_vert(unsigned int loc) {
+    V get_vert(unsigned int loc) {
         return verts[loc];
     }
 
@@ -44,7 +45,7 @@ public:
         std::cout << "Graph size: " << verts.size() << " verts" << std::endl;
 
         for (int i = 0; i < verts.size(); i++) {
-            std::cout << i << ": " << "[" << verts[i].get_data() << "]" << " -> ";
+            std::cout << i << ": " << "[" << verts[i] << "(" << verts[i].get_parent() << ")]" << " -> ";
             verts[i].print_edges();
         }
     }

@@ -3,43 +3,31 @@
 
 #include <vector>
 #include <iostream>
-#include "Edge.h"
 
-template<class T>
 class Vertex {
 private:
-    std::vector<Edge> edges;
-    T data;
+    std::vector<unsigned int> edges;
 
 public:
-    Vertex() : edges(), data() {}
-    Vertex(const T& data_in) : edges(), data(data_in) {}
+    Vertex() : edges() {}
 
     virtual ~Vertex() {}
 
-    T get_data() {
-        return data;
-    }
-
-    void set_data(T data_in) {
-        data = data_in;
-    }
-
     void add_edge(unsigned int dest) {
         // checks to make sure edge to requested destination doesn't already exist
-        for (int i = 0; i < edges.size(); i++) {
-            if (edges[i].dest == dest) {
+        for (unsigned int i = 0; i < edges.size(); i++) {
+            if (edges[i] == dest) {
                 std::cout << "Error: Could not add. Edge to " << dest << " already exists." << std::endl;
                 return;
             }
         }
-        edges.push_back(Edge(dest, 1));
+        edges.push_back(dest);
     }
 
     void del_edge(unsigned int dest) {
         // linear search to find and erase edge to requested destination
-        for (int i = 0; i < edges.size(); i++) {
-            if (edges[i].dest == dest) {
+        for (unsigned int i = 0; i < edges.size(); i++) {
+            if (edges[i] == dest) {
                 edges.erase(edges.begin() + i);
                 return;
             }
@@ -52,8 +40,8 @@ public:
 
     void print_edges() {
         std::cout << "[";
-        for (int i = 0; i < edges.size(); i++) {
-            std::cout << edges[i].dest;
+        for (unsigned int i = 0; i < edges.size(); i++) {
+            std::cout << edges[i];
             if (i < edges.size()- 1) 
                 std::cout << " ";
         }
@@ -64,7 +52,7 @@ public:
         return (unsigned int) edges.size();
     }
 
-    Edge get_edge(unsigned int loc) {
+    unsigned int get_edge(unsigned int loc) {
         return edges[loc];
     }
 
