@@ -3,6 +3,7 @@
 //Note: part of Week 2 Coding 
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include "../include/FileSystem.h"
@@ -84,5 +85,53 @@ int main() {
     COUT << "Test Tree:" << ENDL;
     testCase.printTaxonomy();
 
-    //add real files
+    //test adding a sample file 
+    char text[26];
+
+    fstream file;
+    file.open("example.txt", ios::out | ios::in );
+
+    COUT << "adding text to sample file" << ENDL;
+    CIN.getLine(text, sizeof(text));
+
+    //writing on file 
+    file << text << ENDL;
+
+    //Testing example file: reads info in file 
+    file >> text;
+    COUT << text << ENDL;
+
+    //closing sample file
+    file.close();
+
+    //make fstream file an object of File class that we created (for two files containing same info)
+    File testFile = newFile("testFile", 1, text);
+    File testFile2 = newFile("testFile2", 1, text);
+
+    //insert test file into taxonomy at current location 
+    testCase.newFile(testFile);
+
+    //search for file by name
+    testCase.findFile(testFile);
+
+    //test finding category that file is stored under 
+    testCase.findFileCategory(testFile);
+
+    //add test file into a different category of taxonomy 
+    //first, traverse to different level 
+    testCase.findCategory(cs);
+
+    //add file at present location
+    testCase.newFile(testFile2);
+
+    //search for for file by name 
+    testCase.findFile(testFile2);
+
+    //test finding category that second file is stored under 
+    testCase.findFileCategory(testFile2);
+
+    //print taxonomy one last time 
+    testCase.printTaxonomy();
+
+    return 0;
 }
