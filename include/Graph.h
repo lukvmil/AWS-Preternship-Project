@@ -20,7 +20,7 @@ public:
         verts.push_back(vert);
     }
 
-    void add_edge(unsigned int origin, unsigned int dest) {\
+    void add_edge(unsigned int origin, unsigned int dest) {
         // prevents a loop in the graph (edge to itself)
         if (origin != dest) {
             verts[origin].add_edge(dest);
@@ -39,6 +39,15 @@ public:
 
     V get_vert(unsigned int loc) {
         return verts[loc];
+    }
+
+    int get_vert_loc(V vert){
+      for (int i = 0; i < verts.size(); ++i){
+        if (verts[i].equals(vert)){
+          return i;
+        }
+      }
+      return -1;
     }
 
     virtual void print() {

@@ -8,37 +8,46 @@
 #include "Edge.h"
 #include "File.h"
 #include "Vertex.h"
+#include "Taxon.h"
+#include "Graph.h"
+#include "Tree.h"
+#include <string>
+#include <vector>
 
-#define COUT std::cout 
+#define COUT std::cout
 #define CIN std::cin
 #define ENDL std::endl
 
-// A couple of things in this file need to be updated according to the Tree.h file once it's created 
+// A couple of things in this file need to be updated according to the Tree.h file once it's created
 
 template<class T>
 class FileSystem {
     private:
         Graph<T> graph;
-        Tree<T> tree; 
+        Tree<T> tree;
         int location; //value of node at current location
 
-        //Default Constructor 
+        //Default Constructor
         FileSystem(): graph(), tree(), location() {}
 
         //Overloaded Constructor
         FileSystem( Graph<T> graphIn, Tree<t> treeIn, int locIn) : graph(graphIn), tree(treeIn), location(locIn) {}
 
-    public: 
-        void newTaxon(T data) {
-            tree.add_node(data); //no such method exists yet, change fxn name accordingly 
+    public:
+        void newTaxon(Taxon data) {
+            tree.add_taxon(data);
         }
 
         void newFile(File inputFile) {
             graph.add_vert(inputFile)
         }
 
+        void getTaxons(){
+          tree.print();
+        }
+
         void findFile(File inputFile) {
-            //right now, this function is basically the same as the one below. This one could potentially be a search by location as well 
+            //right now, this function is basically the same as the one below. This one could potentially be a search by location as well
             tempLocation = -1;
             for (int i = 0; i < graph.verts.length(); ++i) {
                 if (graph.verts[i] == inputFile) {
@@ -49,8 +58,8 @@ class FileSystem {
             if (tempLocation == -1) {
                 COUT << "Our apologies, the requested file does not exist in your catalog. " << ENDL;
             }
-            
-        } 
+
+        }
 
         void findFileName(File inputFile) {
             tempLoc = -1;
@@ -63,14 +72,24 @@ class FileSystem {
             if (tempLoc == -1) {
                 COUT << "We're sorry! The requested file does not exist in your taxonomy." << ENDL;
             }
-        } 
+        }
 
         void findFileCategory() {
-            //to be implemented once Tree.h is done 
+            tree.findTaxon();
+        }
+
+        void deleteFile(File f){
+          int location = graph.find_vert_loc(f);
+          graph.del_vert(location);
+        }
+
+        void deleteTaxon(std::string inputTaxonName){
+          tree.del_taxon(inputTaxonName);
         }
 }
 
-//menu of actions for the user to perform with taxonomy  
+//menu of actions for the user to perform with taxonomy
+// now in FileSystemTest.cpp - ready to be deleted
 void listOfCommands() {
     std::string input = "";
 
