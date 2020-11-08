@@ -15,6 +15,8 @@ public:
     Vertex() : edges(), data() {}
     Vertex(const T& data_in) : edges(), data(data_in) {}
 
+    virtual ~Vertex() {}
+
     T get_data() {
         return data;
     }

@@ -26,6 +26,14 @@ FileSystemTest: $(FileSystemTestObjs)
 $(OBJ)/FileSystemTest.o: $(SRC)/FileSystemTest.cpp
 	$(PP) $(CXXFLAGS) -c $(SRC)/FileSystemTest.cpp -o $@
 
+TreeTestObjs := $(OBJ)/TreeTest.o
+TreeTest: $(TreeTestObjs)
+	$(PP) $(CXXFLAGS) -o $(EXE)/TreeTest $(TreeTestObjs)
+	$(EXE)/./TreeTest
+
+$(OBJ)/TreeTest.o: $(SRC)/TreeTest.cpp
+	$(PP) $(CXXFLAGS) -c $(SRC)/TreeTest.cpp -o $@
+
 initialize: 
 	mkdir $(OBJ) $(EXE)
 

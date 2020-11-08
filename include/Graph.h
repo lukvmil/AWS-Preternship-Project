@@ -8,11 +8,13 @@
 
 template<class T>
 class Graph {
-private:
+protected:
     std::vector< Vertex<T> > verts;
 
 public:
     Graph() : verts() {}
+
+    virtual ~Graph() {}
 
     void add_vert(Vertex<T> vert) {
         verts.push_back(vert);
@@ -32,6 +34,10 @@ public:
         for (int i = 0; i < verts.size(); i++) {
             verts[i].del_edge(loc);
         }
+    }
+
+    Vertex<T> get_vert(unsigned int loc) {
+        return verts[loc];
     }
 
     void print() {
