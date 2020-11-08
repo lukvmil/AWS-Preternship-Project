@@ -9,7 +9,10 @@ int main() {
     tree.add_taxon("root", "projects");
     tree.add_taxon("projects", "coding");
     tree.add_taxon("coding", "python");
+    tree.add_taxon("projects", "art");
+    tree.add_taxon("projects", "writing");
     tree.print();
-    std::cout << tree.find_taxon("python") << std::endl;
+    tree.del_taxon("projects");
+    tree.print();
     return 0;
 }

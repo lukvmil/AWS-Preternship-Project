@@ -10,9 +10,10 @@ class Taxon: public Vertex {
 private:
     std::string name;
     unsigned int parent;
+    bool deleted;
 
 public:
-    Taxon(std::string name_in, unsigned int parent_id) : name(name_in), parent(parent_id) {}
+    Taxon(std::string name_in, unsigned int parent_id) : name(name_in), parent(parent_id), deleted(false) {}
 
     ~Taxon() {}
 
@@ -20,8 +21,20 @@ public:
         return name;
     }
 
+    void set_parent(unsigned int id) {
+        parent = id;
+    }
+
     unsigned int get_parent() {
         return parent;
+    }
+
+    void del() {
+        deleted = true;
+    }
+
+    bool alive() {
+        return !deleted;
     }
 
     friend std::ostream& operator<<(std::ostream& os, Taxon& t) {
