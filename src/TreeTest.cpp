@@ -13,6 +13,9 @@ int main() {
     tree.add_taxon("projects", "writing");
     tree.print();
     tree.del_taxon("projects");
+    tree.del_taxon("writing");
+    tree.print();
+    tree.add_taxon("coding", "java");
     tree.print();
     return 0;
 }
