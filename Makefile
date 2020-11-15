@@ -8,7 +8,7 @@ SRC := src
 OBJ := obj
 EXE := exe
 
-all: GraphTest FileSystemTest
+all: GraphTest FileSystemTest FileSystemTestCase
 
 GraphTestObjs := $(OBJ)/GraphTest.o
 GraphTest: $(GraphTestObjs)
@@ -18,6 +18,14 @@ GraphTest: $(GraphTestObjs)
 $(OBJ)/GraphTest.o: $(SRC)/GraphTest.cpp
 	$(PP) $(CXXFLAGS) -c $(SRC)/GraphTest.cpp -o $@
 
+FileSysTestObjs := $(OBJ)/FileSysTest.o
+FileSysTest: $(FileSysTestObjs)
+	$(PP) $(CXXFLAGS) -o $(EXE)/FileSysTest $(FileSysTestObjs)
+	$(EXE)/./FileSysTest
+
+$(OBJ)/FileSysTest.o: $(SRC)/FileSysTest.cpp
+	$(PP) $(CXXFLAGS) -c $(SRC)/FileSysTest.cpp -o $@
+
 FileSystemTestObjs := $(OBJ)/FileSystemTest.o
 FileSystemTest: $(FileSystemTestObjs)
 	$(PP) $(CXXFLAGS) -o $(EXE)/FileSystemTest $(FileSystemTestObjs)
@@ -25,6 +33,14 @@ FileSystemTest: $(FileSystemTestObjs)
 
 $(OBJ)/FileSystemTest.o: $(SRC)/FileSystemTest.cpp
 	$(PP) $(CXXFLAGS) -c $(SRC)/FileSystemTest.cpp -o $@
+
+FileSystemTestCaseObjs := $(OBJ)/FileSystemTestCase.o
+FileSystemTestCase: $(FileSystemTestCaseObjs)
+	$(PP) $(CXXFLAGS) -o $(EXE)/FileSystemTestCase $(FileSystemTestCaseObjs)
+	$(EXE)/./FileSystemTestCase
+
+$(OBJ)/FileSystemTestCase.o: $(SRC)/FileSystemTestCase.cpp
+	$(PP) $(CXXFLAGS) -c $(SRC)/FileSystemTestCase.cpp -o $@
 
 TreeTestObjs := $(OBJ)/TreeTest.o
 TreeTest: $(TreeTestObjs)
