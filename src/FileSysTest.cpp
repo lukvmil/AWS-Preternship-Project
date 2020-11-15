@@ -23,6 +23,4 @@ int main() {
     fs.printTaxonomy();
 
     fs.printCategory(first);
-
-    //fs.findFileCategory();// add later
 }
