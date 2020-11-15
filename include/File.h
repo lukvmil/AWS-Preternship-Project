@@ -103,7 +103,7 @@ public:
         }
         std::cout << "]" << std::endl;
 
-        if (f_edges.size() == 0) {
+        if (taxons.size() == 0) {
             std::cout << "empty" << std::endl;
         }
     }

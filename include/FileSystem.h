@@ -95,7 +95,6 @@ public:
     }
 
 
-    void print_file()
     // //new!
     // void printCategory(std::string taxon) {
     //     int parentVal = DFS(taxon);
