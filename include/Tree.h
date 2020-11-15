@@ -9,9 +9,10 @@
 
 
 class Tree: public Graph<Taxon> {
-private:
+protected:
     std::queue<unsigned int> vacancies;
 
+    // depth first search
     int DFS(std::string name, unsigned int start=0) {
         std::stack<unsigned int> next_node;
         unsigned int curr_node;
@@ -65,7 +66,7 @@ private:
 
 
     // prints out the tree given a starting node
-    void print_tree(unsigned int curr, unsigned int depth=0, bool last=false, std::string head="") {
+    void _print_tree(unsigned int curr, unsigned int depth=0, bool last=false, std::string head="") {
         Taxon* node = &verts[curr];
         std::string disp_str = "";
         std::string send_str = "";
@@ -81,7 +82,7 @@ private:
                 send_str = head + (last ? "    " : "|   ");
             }
 
-            print_tree(
+            _print_tree(
                 node->get_edge(i),              // passes in the next node
                 depth + 1,                      // increases tree (and recursion) depth by one
                 i == node->get_num_edges() - 1, // passes true if next call is the last child
@@ -100,12 +101,14 @@ private:
 public:
     Tree() : vacancies() {
         Taxon root("root", 0);
+        root.set_id(0);
         add_vert(root);
     }
 
-    ~Tree() {}
+    // virtual destructor
+    virtual ~Tree() {}
 
-    void add_taxon(std::string parent, std::string name) {
+    void add_taxon(std::string name, std::string parent = "root") {
         int child_id, parent_id;
 
         // parent id found through private depth first search function
@@ -124,10 +127,12 @@ public:
         if (vacancies.empty()) {
             // child id will be the next element in verts
             child_id = (int) verts.size();
+            child.set_id(child_id);
             add_vert(child);
         } else {
             // fills vacancy
             child_id = (int) vacancies.front();
+            child.set_id(child_id);
             std::cout << "using " << child_id << std::endl;
             vacancies.pop();
 
@@ -166,9 +171,10 @@ public:
     void del_taxon(std::string name) {
         int id;
         unsigned int curr_edge;
-        unsigned int parent_id = verts[id].get_parent();
+        unsigned int parent_id;
 
         id = DFS(name);
+        parent_id = verts[id].get_parent();
         
         if (id == -1) {
             std::cout << "Error: Taxon does not exist." << std::endl;
@@ -193,27 +199,33 @@ public:
 
     }
 
-    int find_taxon(std::string name) {
-        return DFS(name);
+    Taxon* get_taxon(std::string name) {
+        int id;
+        id = DFS(name);
+        if (id != -1) {
+            return &(verts[id]);
+        } else {
+            return NULL;
+        }
     }
 
     // prints out adjacency list representation of tree
-    void print_list() {
+    void print_tree_list() {
         std::cout << "Tree size: " << verts.size() << " verts (" << vacancies.size() << " vacancies)" << std::endl;
 
         for (unsigned int i = 0; i < verts.size(); i++) {
             if (verts[i].alive()) {
-                std::cout << i << ": " << "[" << verts[i] << "]" << " -> ";
+                std::cout << i << ": " << "[" << verts[i] << " " << verts[i].get_id() << "]" << " -> ";
                 verts[i].print_edges();
             } else {
-                std::cout << i << ": " << "*DELETED*" << std::endl;
+                std::cout << i << ": *DELETED*" << std::endl;
             }
         }
     }
 
     // prints out subtree starting at given taxon (defaults to root node)
-    void print(std::string name = "root") {
-        print_tree(DFS(name));
+    void print_tree(std::string name = "root") {
+        _print_tree(DFS(name));
     }
 
 };

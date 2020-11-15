@@ -50,6 +50,14 @@ TreeTest: $(TreeTestObjs)
 $(OBJ)/TreeTest.o: $(SRC)/TreeTest.cpp
 	$(PP) $(CXXFLAGS) -c $(SRC)/TreeTest.cpp -o $@
 
+FSTestObjs := $(OBJ)/FSTest.o
+FSTest: $(FSTestObjs)
+	$(PP) $(CXXFLAGS) -o $(EXE)/FSTest $(FSTestObjs)
+	$(EXE)/./FSTest
+
+$(OBJ)/FSTest.o: $(SRC)/FSTest.cpp
+	$(PP) $(CXXFLAGS) -c $(SRC)/FSTest.cpp -o $@
+
 initialize: 
 	mkdir $(OBJ) $(EXE)
 

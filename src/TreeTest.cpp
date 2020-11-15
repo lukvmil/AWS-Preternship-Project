@@ -2,6 +2,7 @@
 #include "../include/Taxon.h"
 #include "../include/Graph.h"
 #include "../include/Tree.h"
+#include "../include/File.h"
 
 
 int main() {
@@ -13,17 +14,10 @@ int main() {
     tree.add_taxon("projects", "art");
     tree.add_taxon("projects", "writing");
     tree.print();
-    // tree.print_list();
     tree.move_taxon("writing", "coding");
     tree.print();
-    // tree.print();
-    // tree.print_list();
-    // tree.print_list();
-    // tree.print("coding");
-    // tree.del_taxon("projects");
-    // // tree.del_taxon("writing");
-    // tree.print_tree();
-    // tree.add_taxon("coding", "java");
-    // tree.print_tree();
+    
+    File f("test.txt", "hello world!");
+
     return 0;
 }

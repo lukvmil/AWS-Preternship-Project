@@ -50,7 +50,7 @@ public:
       return -1;
     }
 
-    virtual void print() {
+    virtual void print_graph() {
         std::cout << "Graph size: " << verts.size() << " verts" << std::endl;
 
         for (int i = 0; i < verts.size(); i++) {
