@@ -95,16 +95,16 @@ public:
     }
 
     void print_taxons() {
-        std::cout << "[";
-        for (unsigned int i = 0; i < taxons.size(); i++) {
-            std::cout << taxons[i];
-            if (i < taxons.size()- 1) 
-                std::cout << " ";
-        }
-        std::cout << "]" << std::endl;
-
         if (taxons.size() == 0) {
             std::cout << "empty" << std::endl;
+        } else {
+            std::cout << "[";
+            for (unsigned int i = 0; i < taxons.size(); i++) {
+                std::cout << taxons[i];
+                if (i < taxons.size() - 1) 
+                    std::cout << " ";
+            }
+            std::cout << "]" << std::endl;
         }
     }
 

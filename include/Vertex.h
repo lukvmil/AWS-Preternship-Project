@@ -39,16 +39,16 @@ public:
     }
 
     void print_edges() {
-        std::cout << "[";
-        for (unsigned int i = 0; i < edges.size(); i++) {
-            std::cout << edges[i];
-            if (i < edges.size()- 1) 
-                std::cout << " ";
-        }
-        std::cout << "]" << std::endl;
-
         if (edges.size() == 0) {
             std::cout << "empty" << std::endl;
+        } else {
+            std::cout << "[";
+            for (unsigned int i = 0; i < edges.size(); i++) {
+                std::cout << edges[i];
+                if (i < edges.size() - 1) 
+                    std::cout << " ";
+            }
+            std::cout << "]" << std::endl;
         }
     }
 
