@@ -90,16 +90,16 @@ public:
     }
 
     void print_f_edges() {
-        std::cout << "[";
-        for (unsigned int i = 0; i < f_edges.size(); i++) {
-            std::cout << f_edges[i];
-            if (i < f_edges.size()- 1) 
-                std::cout << " ";
-        }
-        std::cout << "]" << std::endl;
-
         if (f_edges.size() == 0) {
             std::cout << "empty" << std::endl;
+        } else {
+            std::cout << "[";
+            for (unsigned int i = 0; i < f_edges.size(); i++) {
+                std::cout << f_edges[i];
+                if (i < f_edges.size() - 1) 
+                    std::cout << " ";
+            }
+            std::cout << "]" << std::endl;
         }
     }
 

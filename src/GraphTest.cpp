@@ -2,14 +2,12 @@
 #include <vector>
 #include "../include/Graph.h"
 #include "../include/Vertex.h"
-#include "../include/Edge.h"
 
 int main() {
-    Graph<int> graph;
-    std::vector<int> verts {1, 3, 6, 7, 5, 4, 2, 8, 9};
+    Graph<Vertex> graph;
     
-    for (unsigned int i = 0; i < verts.size(); i++) {
-        graph.add_vert(verts[i]);
+    for (unsigned int i = 0; i < 7; i++) {
+        graph.add_vert(Vertex());
     }
 
     graph.add_edge(0, 1);
@@ -21,11 +19,5 @@ int main() {
     graph.add_edge(2, 5);
     graph.add_edge(2, 6);
 
-
-    graph.print();
-
-    graph.del_vert(4);
-
-    graph.print();
-
+    graph.print_graph();
 }

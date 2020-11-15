@@ -11,11 +11,12 @@ int main() {
     fs.add_taxon("art", "projects");
     fs.add_taxon("writing", "projects");
     fs.print_tree();
-    fs.print_list();
     fs.add_file(File("notes.txt", "1 + 1 = 2"));
     fs.link("notes.txt", "writing");
     fs.get_file("notes.txt")->print_taxons();
     fs.get_taxon("writing")->print_f_edges();
+    fs.print_tree_list();
+    fs.print_file_list();
     fs.unlink("notes.txt", "writing");
     fs.get_file("notes.txt")->print_taxons();
     fs.get_taxon("writing")->print_f_edges();
