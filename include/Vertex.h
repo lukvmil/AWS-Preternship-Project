@@ -1,7 +1,7 @@
 #ifndef VERTEX_H
 #define VERTEX_H
 
-#include <vector>
+#include <vector> 
 #include <iostream>
 
 class Vertex {
@@ -46,6 +46,10 @@ public:
                 std::cout << " ";
         }
         std::cout << "]" << std::endl;
+
+        if (f_edges.size() == 0) {
+            std::cout << "empty" << std::endl;
+        }
     }
 
     unsigned int get_num_edges() {
