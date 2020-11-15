@@ -3,6 +3,7 @@
 
 #include <stack>
 #include <queue>
+#include <string>
 #include "Graph.h"
 #include "Taxon.h"
 
@@ -11,11 +12,11 @@ class Tree: public Graph<Taxon> {
 private:
     std::queue<unsigned int> vacancies;
 
-    int DFS(std::string name) {
+    int DFS(std::string name, unsigned int start=0) {
         std::stack<unsigned int> next_node;
         unsigned int curr_node;
 
-        next_node.push(0);
+        next_node.push(start);
 
         while (!next_node.empty()) {
             curr_node = next_node.top();
@@ -33,8 +34,68 @@ private:
             }
         }
 
+        std::cout << "DFS Error: Requested node \"" << name << "\" does not exist." << std::endl; 
         return -1;
     }
+
+    bool is_child_of(unsigned int child, unsigned int parent) {
+        std::stack<unsigned int> next_node;
+        unsigned int curr_node;
+
+        next_node.push(parent);
+
+        while (!next_node.empty()) {
+            curr_node = next_node.top();
+            next_node.pop();
+
+            // returns node value if requested taxon is found
+            if (curr_node == child) {
+                return true;
+            }
+
+            // iterates through all edges in the current node
+            for (unsigned int i = 0; i < verts[curr_node].get_num_edges(); i++) {
+                // adds each to the stack
+                next_node.push(verts[curr_node].get_edge(i));
+            }
+        }
+
+        return false;
+    }
+
+
+    // prints out the tree given a starting node
+    void print_tree(unsigned int curr, unsigned int depth=0, bool last=false, std::string head="") {
+        Taxon* node = &verts[curr];
+        std::string disp_str = "";
+        std::string send_str = "";
+
+        if (depth) {
+            disp_str = head + (last ? "└── " : "├── ");
+        }
+
+        std::cout << disp_str << node->get_name() << std::endl;
+
+        for (unsigned int i = 0; i < node->get_num_edges(); i++) {
+            if (depth) {
+                send_str = head + (last ? "    " : "|   ");
+            }
+
+            print_tree(
+                node->get_edge(i),              // passes in the next node
+                depth + 1,                      // increases tree (and recursion) depth by one
+                i == node->get_num_edges() - 1, // passes true if next call is the last child
+                send_str                        // passes in the head string for the next line
+            );
+
+        }
+
+    }
+
+    void error(std::string msg, const char* func) {
+        std::cout << "Error: Tree." << func << "() -> " << msg << std::endl;
+    }
+
 
 public:
     Tree() : vacancies() {
@@ -78,10 +139,41 @@ public:
         add_edge(parent_id, child_id);
     }
 
-    void del_taxon(std::string name, bool recursive = false) {
-        int id = DFS(name);
+    void move_taxon(std::string name, std::string dest) {
+        int child_id, parent_id;
+
+        child_id = DFS(name);
+        parent_id = DFS(dest);
+
+        if (child_id == -1) { error("source does not exist", __FUNCTION__); return; }
+        if (parent_id == -1) { error("destination does not exist", __FUNCTION__); return; }
+        if (child_id == 0) { error("cannot move root node", __FUNCTION__); return; }
+        if (is_child_of(parent_id, child_id)) { error("cannot move parent into child node", __FUNCTION__); return; }
+
+        Taxon* child = &verts[child_id];
+        Taxon* old_parent = &verts[child->get_parent()];
+        Taxon* new_parent = &verts[parent_id];
+
+        // moving edge from old parent to new parent
+        old_parent->del_edge(child_id);
+        new_parent->add_edge(child_id);
+
+        // updating child's parent's id
+        child->set_parent(parent_id);
+
+    }
+
+    void del_taxon(std::string name) {
+        int id;
         unsigned int curr_edge;
         unsigned int parent_id = verts[id].get_parent();
+
+        id = DFS(name);
+        
+        if (id == -1) {
+            std::cout << "Error: Taxon does not exist." << std::endl;
+            return;
+        }
 
         // lazy deletion
         verts[id].del();
@@ -90,22 +182,14 @@ public:
         // removes connection from parent
         verts[parent_id].del_edge(id);
 
-        if (!recursive) {
-            // iteratively moves all child taxons to be children of the deleted taxon's parent
-            for (unsigned int i = 0; i < verts[id].get_num_edges(); i++) {
-                curr_edge = verts[id].get_edge(i);
+        // iteratively moves all child taxons to be children of the deleted taxon's parent
+        for (unsigned int i = 0; i < verts[id].get_num_edges(); i++) {
+            curr_edge = verts[id].get_edge(i);
 
-                verts[curr_edge].set_parent(parent_id);
-                verts[parent_id].add_edge(curr_edge);
-            }
-        } else {
-            // recursively deletes child taxons
-            for (unsigned int i = 0; i < verts[id].get_num_edges(); i++) {
-                curr_edge = verts[id].get_edge(i);
-                std::cout << "deleting " << verts[curr_edge].get_name() << std::endl;
-                del_taxon(verts[curr_edge].get_name(), true);
-            }
+            verts[curr_edge].set_parent(parent_id);
+            verts[parent_id].add_edge(curr_edge);
         }
+        
 
     }
 
@@ -113,7 +197,8 @@ public:
         return DFS(name);
     }
 
-    void print() {
+    // prints out adjacency list representation of tree
+    void print_list() {
         std::cout << "Tree size: " << verts.size() << " verts (" << vacancies.size() << " vacancies)" << std::endl;
 
         for (unsigned int i = 0; i < verts.size(); i++) {
@@ -124,6 +209,11 @@ public:
                 std::cout << i << ": " << "*DELETED*" << std::endl;
             }
         }
+    }
+
+    // prints out subtree starting at given taxon (defaults to root node)
+    void print(std::string name = "root") {
+        print_tree(DFS(name));
     }
 
 };

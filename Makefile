@@ -1,6 +1,6 @@
 PP := g++
 
-FLAGS := -O0 -g -Wall -Wextra -Wconversion -Wshadow -pedantic -Werror 
+FLAGS := -O0 -g -Wall -Wextra -Wconversion -Wshadow -pedantic # -Werror 
 CXXFLAGS := -m64 -std=c++11 -Weffc++ $(FLAGS) 
 
 INC := include

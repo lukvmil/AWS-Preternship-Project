@@ -12,6 +12,8 @@ private:
     unsigned int parent;
     bool deleted;
 
+    // std::vector<> ;
+
 public:
     Taxon(std::string name_in, unsigned int parent_id) : name(name_in), parent(parent_id), deleted(false) {}
 

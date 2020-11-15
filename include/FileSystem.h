@@ -64,7 +64,7 @@ class FileSystem {
         void findFileName(File inputFile) {
             tempLoc = -1;
             for (int j = 0; j < graph.verts.length(); ++j) {
-                if (graph.verts[j] == inputFile) {
+                if (graph.verts[j] == inptFile) {
                     tempLoc = 1
                     COUT << "The file exists under the category " //add the node on the tree here that it's at here
                 }

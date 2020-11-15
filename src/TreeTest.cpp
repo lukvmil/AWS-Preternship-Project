@@ -3,6 +3,7 @@
 #include "../include/Graph.h"
 #include "../include/Tree.h"
 
+
 int main() {
     Tree tree;
     tree.add_taxon("root", "schoolwork");
@@ -12,10 +13,17 @@ int main() {
     tree.add_taxon("projects", "art");
     tree.add_taxon("projects", "writing");
     tree.print();
-    tree.del_taxon("projects");
-    tree.del_taxon("writing");
+    // tree.print_list();
+    tree.move_taxon("writing", "coding");
     tree.print();
-    tree.add_taxon("coding", "java");
-    tree.print();
+    // tree.print();
+    // tree.print_list();
+    // tree.print_list();
+    // tree.print("coding");
+    // tree.del_taxon("projects");
+    // // tree.del_taxon("writing");
+    // tree.print_tree();
+    // tree.add_taxon("coding", "java");
+    // tree.print_tree();
     return 0;
 }
