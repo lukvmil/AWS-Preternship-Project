@@ -18,14 +18,6 @@ GraphTest: $(GraphTestObjs)
 $(OBJ)/GraphTest.o: $(SRC)/GraphTest.cpp
 	$(PP) $(CXXFLAGS) -c $(SRC)/GraphTest.cpp -o $@
 
-FileSysTestObjs := $(OBJ)/FileSysTest.o
-FileSysTest: $(FileSysTestObjs)
-	$(PP) $(CXXFLAGS) -o $(EXE)/FileSysTest $(FileSysTestObjs)
-	$(EXE)/./FileSysTest
-
-$(OBJ)/FileSysTest.o: $(SRC)/FileSysTest.cpp
-	$(PP) $(CXXFLAGS) -c $(SRC)/FileSysTest.cpp -o $@
-
 FileSystemTestObjs := $(OBJ)/FileSystemTest.o
 FileSystemTest: $(FileSystemTestObjs)
 	$(PP) $(CXXFLAGS) -o $(EXE)/FileSystemTest $(FileSystemTestObjs)
@@ -49,6 +41,14 @@ TreeTest: $(TreeTestObjs)
 
 $(OBJ)/TreeTest.o: $(SRC)/TreeTest.cpp
 	$(PP) $(CXXFLAGS) -c $(SRC)/TreeTest.cpp -o $@
+
+FileSysTestObjs := $(OBJ)/FileSysTest.o
+FileSysTest: $(FileSysTestObjs)
+	$(PP) $(CXXFLAGS) -o $(EXE)/FileSysTest $(FileSysTestObjs)
+	$(EXE)/./FileSysTest
+
+$(OBJ)/FileSysTest.o: $(SRC)/FileSysTest.cpp
+	$(PP) $(CXXFLAGS) -c $(SRC)/FileSysTest.cpp -o $@
 
 initialize: 
 	mkdir $(OBJ) $(EXE)
