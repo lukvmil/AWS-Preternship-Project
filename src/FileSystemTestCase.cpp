@@ -12,7 +12,7 @@
 #define CIN std::cin
 
 int main() {
-    FileSystem<File> testCase;
+    FileSystem testCase;
 
     std::string school = "School";
 
@@ -37,49 +37,49 @@ int main() {
     std::string drawing = "Drawing";
 
     //first category of taxonomy is school 
-    testCase.newTaxon(school);
+    testCase.add_taxon(school);
 
     //traverse into school category to add subcategories
-    testCase.findCategory(std::string school);
+    testCase.findCategory(school);
 
     //subcategory of school
-    testCase.newTaxon(std::string type);
+    testCase.add_taxon(type);
 
     //traverse into type category to add subcategories
-    testCase.newTaxon(std::string notes);
-    testCase.newTaxon(std::string hw);
-    testCase.newTaxon(std::string tests);
+    testCase.add_taxon(notes);
+    testCase.add_taxon(hw);
+    testCase.add_taxon(tests);
 
     //go back up to the school category to build anoter child of school 
-    testCase.findCategory(std::string school);
+    testCase.findCategory(school);
 
     //add "Major" subcategory 
-    testCase.newTaxon(std::string major);
+    testCase.add_taxon(major);
 
     //traverse into major category 
-    testCase.findCategory(std::string major);
+    testCase.findCategory(major);
 
     //add subcategories of major 
-    testCase.newTaxon(std::string cs);
-    testCase.newTaxon(std::string art);
+    testCase.add_taxon(cs);
+    testCase.add_taxon(art);
 
     //traverse into Computer Science category to add subcategories
-    testCase.findCategory(std::string cs);
+    testCase.findCategory(cs);
 
     //add Computer Science subcategories 
-    testCase.newTaxon(std::string ds);
-    testCase.newTaxon(std::string sp);
-    testCase.newTaxon(std::string fc);
-    testCase.newTaxon(std::string dm);
+    testCase.add_taxon(ds);
+    testCase.add_taxon(sp);
+    testCase.add_taxon(fc);
+    testCase.add_taxon(dm);
 
     //go back up to Art category to add its subcategories
-    testCase.findCategory(std::string art);
+    testCase.findCategory(art);
 
     //add Art subcategories
-    testCase.newTaxon(std::string pottery);
-    testCase.newTaxon(std::string pp);
-    testCase.newTaxon(std::string painting);
-    testCase.newTaxon(std::string drawing);
+    testCase.add_taxon(pottery);
+    testCase.add_taxon(pp);
+    testCase.add_taxon(painting);
+    testCase.add_taxon(drawing);
 
     //print tree! 
     COUT << "Test Tree:" << ENDL;
@@ -92,7 +92,7 @@ int main() {
     file.open("example.txt", ios::out | ios::in );
 
     COUT << "adding text to sample file" << ENDL;
-    CIN.getLine(text, sizeof(text));
+    CIN.getline(text, sizeof(text));
 
     //writing on file 
     file << text << ENDL;
@@ -105,11 +105,11 @@ int main() {
     file.close();
 
     //make fstream file an object of File class that we created (for two files containing same info)
-    File testFile = newFile("testFile", 10, file); //templated data for the file in this case is the fstream object 
-    File testFile2 = newFile("testFile2", 10, file);
+    File testFile = add_file("testFile", 10, file); //templated data for the file in this case is the fstream object 
+    File testFile2 = add_file("testFile2", 10, file);
 
     //insert test file into taxonomy at current location 
-    testCase.newFile(testFile);
+    testCase.add_file(testFile);
 
     //search for file by name
     testCase.findFile(testFile);
@@ -122,7 +122,7 @@ int main() {
     testCase.findCategory(cs);
 
     //add file at present location
-    testCase.newFile(testFile2);
+    testCase.add_file(testFile2);
 
     //search for for file by name 
     testCase.findFile(testFile2);
