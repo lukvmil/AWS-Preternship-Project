@@ -66,34 +66,6 @@ int main() {
     fs.print_taxon_files(f);
 
     fs.print_tree();
-    // // Taxon* root = fs.get_root();
-    // fs.add_taxon("test");
-    // fs.get_taxon("root")->print_edges();
-    // // Taxon* school = fs.add_taxon("schoolwork", root);
-    // // Taxon* projects = fs.add_taxon("projects", root);
-    // // Taxon* coding = fs.add_taxon("coding", projects);
-    // // Taxon* python = fs.add_taxon("python", coding);
-    // // fs.add_taxon("art", projects);
-    // // fs.add_taxon("writing", projects);
-    // fs.print_tree();
-    // fs.print_tree_list();
-    // fs.move_taxon(python, school);
-    // school->print_edges();
-    // fs.print_tree();
-    // fs.add_file(File("notes.txt", "1 + 1 = 2"));
-    // fs.add_file(File("blugru.txt", "testing"));
-    //     fs.print_file_list();
-
-    // fs.link(fs.get_file("notes.txt"), fs.get_taxon("writing"));
-    // fs.link(fs.get_file("notes.txt"), fs.get_taxon("art"));
-    // fs.link(fs.get_file("blugru.txt"), fs.get_taxon("art"));
-    // fs.del_file(fs.get_file("notes.txt"));
-    // fs.print_taxon_files(fs.get_taxon("art"));
-    // fs.print_taxon_files(fs.get_taxon("writing"));
-    // fs.print_file_taxons(fs.get_file("notes.txt"));
-    // fs.print_file_taxons(fs.get_file("blugru.txt"));
-    // fs.print_file_list();
-
 
     return 0;
 }
