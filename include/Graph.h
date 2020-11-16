@@ -1,10 +1,13 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+
 #include <vector>
 #include <iostream>
 
 #include "Vertex.h"
+
+#define uint unsigned int
 
 template<class V>
 class Graph {
@@ -20,7 +23,7 @@ public:
         verts.push_back(vert);
     }
 
-    void add_edge(unsigned int origin, unsigned int dest) {
+    void add_edge(uint origin, uint dest) {
         // prevents a loop in the graph (edge to itself)
         if (origin != dest) {
             verts[origin].add_edge(dest);
@@ -29,7 +32,7 @@ public:
         }
     }
 
-    void del_vert(unsigned int loc) {
+    void del_vert(uint loc) {
         verts.erase(verts.begin() + loc);
 
         for (int i = 0; i < verts.size(); i++) {
@@ -37,7 +40,7 @@ public:
         }
     }
 
-    V get_vert(unsigned int loc) {
+    V get_vert(uint loc) {
         return verts[loc];
     }
 

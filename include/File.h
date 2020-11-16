@@ -7,13 +7,15 @@
 #include "Vertex.h"
 #include <string>
 
+#define uint unsigned int
+
 class File: public Vertex {
 private:
     std::string name;
-    unsigned int id;
-    long unsigned int size;
+    uint id;
+    long uint size;
     std::string data;
-    std::vector<unsigned int> taxons;
+    std::vector<uint> taxons;
     bool deleted;
 
 public:
@@ -34,11 +36,11 @@ public:
         return name;
     }
 
-    void set_id(unsigned int id_in) {
+    void set_id(uint id_in) {
         id = id_in;
     }
 
-    unsigned int get_id() {
+    uint get_id() {
         return id;
     }
 
@@ -51,7 +53,7 @@ public:
         return data;
     }
 
-    long unsigned int get_size() {
+    long uint get_size() {
         return size;
     }
 
@@ -63,8 +65,8 @@ public:
         return !deleted;
     }
 
-    void add_taxon(unsigned int dest) {
-        for (unsigned int i = 0; i < taxons.size(); i++) {
+    void add_taxon(uint dest) {
+        for (uint i = 0; i < taxons.size(); i++) {
             if (taxons[i] == dest) {
                 std::cout << "Error: Could not add. Taxon " << dest << " already exists." << std::endl;
                 return;
@@ -73,8 +75,8 @@ public:
         taxons.push_back(dest);
     }
 
-    void del_taxon(unsigned int dest) {
-        for (unsigned int i = 0; i < taxons.size(); i++) {
+    void del_taxon(uint dest) {
+        for (uint i = 0; i < taxons.size(); i++) {
             if (taxons[i] == dest) {
                 taxons.erase(taxons.begin() + i);
                 return;
@@ -82,15 +84,15 @@ public:
         }
     }
 
-    void del_taxon_loc(unsigned int loc) {
+    void del_taxon_loc(uint loc) {
         taxons.erase(taxons.begin() + loc);
     }
 
-    unsigned int get_num_taxons() {
-        return (unsigned int) taxons.size();
+    uint get_num_taxons() {
+        return (uint) taxons.size();
     }
 
-    unsigned int get_taxon(unsigned int loc) {
+    uint get_taxon(uint loc) {
         return taxons[loc];
     }
 
@@ -99,7 +101,7 @@ public:
             std::cout << "empty" << std::endl;
         } else {
             std::cout << "[";
-            for (unsigned int i = 0; i < taxons.size(); i++) {
+            for (uint i = 0; i < taxons.size(); i++) {
                 std::cout << taxons[i];
                 if (i < taxons.size() - 1) 
                     std::cout << " ";

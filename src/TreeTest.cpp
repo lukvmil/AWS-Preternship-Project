@@ -7,17 +7,21 @@
 
 int main() {
     Tree tree;
-    tree.add_taxon("schoolwork");
-    tree.add_taxon("projects");
-    tree.add_taxon("coding", "projects");
-    tree.add_taxon("python", "coding");
-    tree.add_taxon("art", "projects");
-    tree.add_taxon("writing", "projects");
+    int a, b, c, d, e, f;
+    a = tree.add_taxon("schoolwork");
+    b = tree.add_taxon("projects");
+    c = tree.add_taxon("coding", b);
+    d = tree.add_taxon("python", c);
+    e = tree.add_taxon("art", b);
+    f = tree.add_taxon("writing", b);
     tree.print_tree();
-    tree.move_taxon("coding", "art");
-    tree.move_taxon("writing", "coding");
+    tree.move_taxon(c, e);
+    tree.move_taxon(f, c);
     tree.print_tree();
-    tree.del_taxon("art");
+    tree.del_taxon(e);
+    tree.print_tree();
+    tree.del_taxon(a);
+    tree.del_taxon(d);
     tree.print_tree();
 
     return 0;

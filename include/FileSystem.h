@@ -29,63 +29,63 @@ public:
     ~FileSystem() {}
 
     // adding files checks to fill spots of deleted files first
-    void add_file(File new_file) {
+    int add_file(File new_file) {
         if (f_vacancies.empty()) {
-            new_file.set_id((unsigned int) f_vacancies.size());
+            new_file.set_id((uint) files.size());
             files.push_back(new_file);
         } else {
             new_file.set_id(f_vacancies.front());
             files[f_vacancies.front()] = new_file;
             f_vacancies.pop();
         }
+
+        return new_file.get_id();
     }
 
     // file delete using lazy deletion
-    void del_file(std::string name) {
-        for (unsigned int i = 0; i < files.size(); i++) {
+    void del_file(int f) {
+        File* file = &files[f];
+
+        for (uint i = 0; i < file->get_num_taxons(); i++) {
+            verts[file->get_taxon(i)].del_f_edge(file->get_id());
+        }
+
+        file->del();
+        f_vacancies.push(file->get_id());
+    }
+
+    int get_file(std::string name) {
+        for (uint i = 0; i < files.size(); i++) {
             if (files[i].get_name() == name) {
-                files[i].del();
-                f_vacancies.push(i);
+                return i;
             }
         }
+        return -1;
     }
 
-    File* get_file(std::string name) {
-        for (unsigned int i = 0; i < files.size(); i++) {
-            if (files[i].get_name() == name) {
-                return &(files[i]);
-            }
-        }
-        return NULL;
+    void del_taxon(int id) {
+        Tree::del_taxon()
     }
 
-    void link(std::string fname, std::string tname) {
-        Taxon* taxon = get_taxon(tname);
-        File* file = get_file(fname);
-
-        if (taxon && file) {
-            file->add_taxon(taxon->get_id());
-            taxon->add_f_edge(file->get_id());
-        } else {
-            std::cout << "Error invalid input names" << std::endl;
-        }
+    void link(int f, int t) {
+        File* file = &files[f];
+        Taxon* taxon = &verts[t];
+        
+        file->add_taxon(taxon->get_id());
+        taxon->add_f_edge(file->get_id());
     }
 
-    void unlink(std::string fname, std::string tname) {
-        Taxon* taxon = get_taxon(tname);
-        File* file = get_file(fname);
-
-        if (taxon && file) {
-            file->del_taxon(taxon->get_id());
-            taxon->del_f_edge(file->get_id());
-        } else {
-            std::cout << "Error invalid input names" << std::endl;
-        }
+    void unlink(int f, int t) {
+        File* file = &files[f];
+        Taxon* taxon = &verts[t];
+        
+        file->del_taxon(taxon->get_id());
+        taxon->del_f_edge(file->get_id());
     }
 
     void print_file_list() {
         std::cout << "Number of files: " << files.size() << " (" << f_vacancies.size() << " vacancies)" << std::endl;
-        for (unsigned int i = 0; i < files.size(); i++) {
+        for (uint i = 0; i < files.size(); i++) {
             if (files[i].alive()) {
                 std::cout << i << ": " << files[i].get_name() << " (" << files[i].get_size() << " bytes)" << std::endl;
             } else {
@@ -94,23 +94,45 @@ public:
         }
     }
 
+    void print_file(int f) {
+        std::cout << files[f].get_data() << std::endl;
+    }
 
-    // //new!
-    // void printCategory(std::string taxon) {
-    //     int parentVal = DFS(taxon);
-    //     for (unsigned int i = 0; i < tree.verts.size(); ++i) {
-    //         if ((tree.verts[i].get_parent() == parentVal)) {
-    //             if (tree.verts[i].alive()) {
-    //                 COUT << i << ": " << "[" << verts[i] << "]" << " -> ";
-    //                 verts[i].print_edges();
-    //             }
-    //             else {
-    //                 COUT << i << ": " << "*DELETED*" << ENDL;
-    //             }
+    void print_file_taxons(int f) {
+        File* file = &files[f];
 
-    //         }
-    //     }
-    // }
+        if (file->alive()) {
+            std::cout << file->get_name() << ": (";
+            for(uint i = 0; i < file->get_num_taxons(); i++) {
+                std::cout << verts[file->get_taxon(i)].get_name();
+                if (i < file->get_num_taxons() - 1) {
+                    std::cout << ", ";
+                }
+            }
+            std::cout << ")" << std::endl;
+        } else {
+            std::cout << "*DELETED*" << std::endl;
+        }
+    }
+
+    void print_taxon_files(int t) {
+        Taxon* taxon = &verts[t];
+        if (taxon->alive()) {
+            std::cout << taxon->get_name() << " -> ";
+            for(uint i = 0; i < taxon->get_num_f_edges(); i++) {
+                std::cout << files[taxon->get_f_edge(i)].get_name();
+                if (i < taxon->get_num_f_edges() - 1) {
+                    std::cout << ", ";
+                }
+            }
+            std::cout << std::endl;
+        }
+        else {
+            std::cout << "*DELETED*" << std::endl;
+        }
+    }
+
+
 
     // void findFile(File<T> inputFile) { //ADJUST LATER
     //     int tempLocation = -1;
@@ -124,19 +146,6 @@ public:
     //         COUT << "Our apologies, the requested file does not exist in your catalog. " << ENDL;
     //     }
 
-    // }
-
-    // void findFileName(File<T> inputFile) { //ADJUST LATER 
-    //     int tempLoc = -1;
-    //     for (int j = 0; j < graph.verts.length(); ++j) {
-    //         if (graph.verts[j] == inputFile) {
-    //             tempLoc = 1;
-    //             COUT << "The file exists under the category "; //add the node on the tree here that it's at here
-    //         }
-    //     }
-    //     if (tempLoc == -1) {
-    //         COUT << "We're sorry! The requested file does not exist in your taxonomy." << ENDL;
-    //     }
     // }
 
     // void findFileCategory(std::string taxon) {
