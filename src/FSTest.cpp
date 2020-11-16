@@ -2,14 +2,23 @@
 #include "../include/FileSystem.h"
 #include "../include/File.h"
 
+std::string dino =
+"               __ "
+"              / _)"
+"     _.----._/ /  "
+"    /         /   "
+" __/ (  | (  |    "
+"/__.-'|_|--|_|    ";
+
+
 int main() {
     FileSystem fs;
     int f1, f2, f3;
     int a, b, c, d, e, f;
 
-    f1 = fs.add_file(File("jon.txt", "this guy sucks"));
-    f2 = fs.add_file(File("vito.txt", "real bitch"));
-    f3 = fs.add_file(File("reading.txt", "i dont know how to read"));
+    f1 = fs.add_file(File("dino.txt", dino));
+    f2 = fs.add_file(File("pi.txt", "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679"));
+    f3 = fs.add_file(File("reading.txt", "I don't know how to read."));
     fs.print_file(f1); fs.print_file(f2); fs.print_file(f3);
 
     a = fs.add_taxon("schoolwork");
@@ -25,6 +34,8 @@ int main() {
     fs.link(f1, a);
     fs.link(f3, a);
     fs.link(f3, f);
+    fs.link(f1, b);
+    fs.link(f2, d);
 
     fs.print_file_taxons(f1);
     fs.print_file_taxons(f2);
@@ -34,7 +45,7 @@ int main() {
     fs.print_taxon_files(f);
     std::cout << std::endl;
 
-    fs.del_file(f1);
+    // fs.del_file(f1);
 
     fs.print_file_taxons(f1);
     fs.print_file_taxons(f2);
@@ -54,6 +65,7 @@ int main() {
     fs.print_taxon_files(a);
     fs.print_taxon_files(f);
 
+    fs.print_tree();
     // // Taxon* root = fs.get_root();
     // fs.add_taxon("test");
     // fs.get_taxon("root")->print_edges();

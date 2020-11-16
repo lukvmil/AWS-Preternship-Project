@@ -37,7 +37,7 @@ void addTaxons(&FileSystem fs){
     CIN >> parent;
     // add input to file system
     Taxon t (name, parent);
-    fs.add_taxon(input);
+    fs.add_taxon(t);
     // ask if there is further input
     COUT << "Do you want to add more categories? [y/n]";
     CIN >> continueInput;

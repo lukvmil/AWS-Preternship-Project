@@ -129,7 +129,7 @@ public:
 
     }
 
-    void del_taxon(int id) {
+    virtual void del_taxon(int id) {
         uint curr_edge;
         uint parent_id;
 
@@ -177,7 +177,7 @@ public:
     }
 
     // prints out subtree starting at given taxon (defaults to root node)
-    void print_tree(uint curr=0, uint depth=0, bool last=false, std::string head="") {
+    virtual void print_tree(uint curr=0, uint depth=0, bool last=false, std::string head="") {
         Taxon* node = &verts[curr];
         std::string disp_str = "";
         std::string send_str = "";

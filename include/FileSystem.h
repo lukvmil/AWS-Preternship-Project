@@ -47,7 +47,7 @@ public:
         File* file = &files[f];
 
         for (uint i = 0; i < file->get_num_taxons(); i++) {
-            verts[file->get_taxon(i)].del_f_edge(file->get_id());
+            verts[file->get_taxon(i)].del_file(file->get_id());
         }
 
         file->del();
@@ -63,24 +63,33 @@ public:
         return -1;
     }
 
-    void del_taxon(int id) {
-        Tree::del_taxon()
+    void del_taxon(int t_id) {
+        // detaches all files from deleted taxon
+        Taxon* taxon = &verts[t_id];
+        for (int f_id = 0; f_id < taxon->get_num_files(); f_id++) {
+            unlink(taxon->get_file(f_id), t_id);
+        }
+
+        // calls lazy delete function from Tree class
+        Tree::del_taxon(t_id);
     }
 
+    // links a taxon to a file
     void link(int f, int t) {
         File* file = &files[f];
         Taxon* taxon = &verts[t];
         
         file->add_taxon(taxon->get_id());
-        taxon->add_f_edge(file->get_id());
+        taxon->add_file(file->get_id());
     }
 
+    // unlinks a taxon from a file
     void unlink(int f, int t) {
         File* file = &files[f];
         Taxon* taxon = &verts[t];
         
         file->del_taxon(taxon->get_id());
-        taxon->del_f_edge(file->get_id());
+        taxon->del_file(file->get_id());
     }
 
     void print_file_list() {
@@ -119,9 +128,9 @@ public:
         Taxon* taxon = &verts[t];
         if (taxon->alive()) {
             std::cout << taxon->get_name() << " -> ";
-            for(uint i = 0; i < taxon->get_num_f_edges(); i++) {
-                std::cout << files[taxon->get_f_edge(i)].get_name();
-                if (i < taxon->get_num_f_edges() - 1) {
+            for(uint i = 0; i < taxon->get_num_files(); i++) {
+                std::cout << files[taxon->get_file(i)].get_name();
+                if (i < taxon->get_num_files() - 1) {
                     std::cout << ", ";
                 }
             }
@@ -129,6 +138,32 @@ public:
         }
         else {
             std::cout << "*DELETED*" << std::endl;
+        }
+    }
+
+    void print_tree(uint curr=0, uint depth=0, bool last=false, std::string head="") {
+        Taxon* node = &verts[curr];
+        std::string disp_str = "";
+        std::string send_str = "";
+
+        if (depth) {
+            disp_str = head + (last ? "└── " : "├── ");
+        }
+
+        std::cout << disp_str;
+        print_taxon_files(curr);
+
+        for (uint i = 0; i < node->get_num_edges(); i++) {
+            if (depth) {
+                send_str = head + (last ? "    " : "|   ");
+            }
+
+            print_tree(
+                node->get_edge(i),              // passes in the next node
+                depth + 1,                      // increases tree (and recursion) depth by one
+                i == node->get_num_edges() - 1, // passes true if next call is the last child
+                send_str                        // passes in the head string for the next line
+            );
         }
     }
 
