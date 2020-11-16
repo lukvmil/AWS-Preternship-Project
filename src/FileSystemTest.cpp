@@ -37,7 +37,7 @@ void addTaxons(&FileSystem fs){
     CIN >> parent;
     // add input to file system
     Taxon t (name, parent);
-    fs.newTaxon(input);
+    fs.add_taxon(input);
     // ask if there is further input
     COUT << "Do you want to add more categories? [y/n]";
     CIN >> continueInput;
@@ -66,7 +66,8 @@ void addFiles(&FileSystem fs){
     CIN >> size;
     COUT >> "What data is in the file? ";
     std::getline(CIN, data);
-    File f (fileName, size, data);
+    File f;
+    f.set_name("file");
     // second loop to tag files with user defined taoxns
     std::vector <std::string> fileTaxons;
     do{
@@ -79,7 +80,10 @@ void addFiles(&FileSystem fs){
       CIN >> continueInput;
     } while(continueInput == 'y');
     // add to file system
-    fs.newFile(f, fileTaxons);
+    fs.add_file(f);
+    for (int i = 0; i < fileTaxons.size(); ++i) {
+      fs.link("file", fileTaxons[i]);
+    }
     // ask if there is further input
     COUT << "Do you want to add more categories? [y/n]";
     CIN >> continueInput;
@@ -108,7 +112,7 @@ void printFileSystem(&FileSystem fs){
 * passed FileSystem object
 *************************************/
 void printTaxons(&FileSystem fs){
-  COUT << fs.getTaxons() << ENDL;
+  print_tree_list();
 }
 
 /************************************
@@ -123,7 +127,7 @@ void searchByName(&FileSystem fs){
   std::string input;
   COUT << "What file are you searching for? ";
   CIN >> input;
-  fs.findFileName(input);
+  fs.get_file(input);
 }
 
 /************************************
@@ -147,7 +151,10 @@ void searchByTaxon(&FileSystem fs){
     CIN >> continueInput;
   } while (continueInput == 'y');
   // find the file
-  fs.findFileCategory(fileTaxons);
+  for (int i = 0; i < fileTaxons.size(); ++i) {
+    fs.print_tree(fileTaxons[i]);
+  }
+  
 }
 
 /************************************
@@ -160,15 +167,17 @@ void searchByTaxon(&FileSystem fs){
 * FileSystem
 *************************************/
 void deleteFile(&FileSystem fs){
-  std::string fileName, size, data;
+  //std::string fileName, size, data;
+  std::string fileName;
   COUT << "What file would you like to delete? ";
   CIN >> fileName;
-  COUT << "What is the size of the file? ";
-  CIN >> size;
-  COUT >> "What data is in the file? ";
-  std::getline(CIN, data);
-  File f (fileName, size, data);
-  fs.deleteFile(f);
+  //COUT << "What is the size of the file? ";
+  //CIN >> size;
+  //COUT >> "What data is in the file? ";
+  //std::getline(CIN, data);
+  //File f;
+  //f.set_name(fileName);
+  fs.del_file(fileName);
 }
 
 /************************************
@@ -183,7 +192,7 @@ void deleteFile(&FileSystem fs){
 void deleteTaxon(&FileSystem fs){
   std::string taxonName;
   COUT << "What category would you like to delete? ";
-  fs.deleteTaxon(taxonName);
+  fs.del_taxon(taxonName);
 }
 
 /************************************
