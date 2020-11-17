@@ -37,101 +37,122 @@ int main() {
     std::string drawing = "Drawing";
 
     //first category of taxonomy is school 
-    testCase.add_taxon(school);
+    testCase.add_taxon(school); //inserts at root 
+
+    //print after first insert 
+    COUT << "Test Case Tree after first insert of a taxon: " << ENDL;
+    testCase.print_tree();
+    COUT << ENDL << ENDL; 
 
     //traverse into school category to add subcategories
-    testCase.findCategory(school);
+    int schoolNode = testCase.get_taxon(school);
 
     //subcategory of school
-    testCase.add_taxon(type);
+    testCase.add_taxon(type, schoolNode);
 
     //traverse into type category to add subcategories
-    testCase.add_taxon(notes);
-    testCase.add_taxon(hw);
-    testCase.add_taxon(tests);
-
-    //go back up to the school category to build anoter child of school 
-    testCase.findCategory(school);
+    int typeNode = testCase.get_taxon(type);
+    testCase.add_taxon(notes, typeNode);
+    testCase.add_taxon(hw, typeNode);
+    testCase.add_taxon(tests, typeNode);
 
     //add "Major" subcategory 
-    testCase.add_taxon(major);
+    testCase.add_taxon(major, schoolNode);
 
     //traverse into major category 
-    testCase.findCategory(major);
+    int majorNode = testCase.get_taxon(major);
 
     //add subcategories of major 
-    testCase.add_taxon(cs);
-    testCase.add_taxon(art);
+    testCase.add_taxon(cs, majorNode);
+    testCase.add_taxon(art, majorNode);
 
     //traverse into Computer Science category to add subcategories
-    testCase.findCategory(cs);
+    int csNode = testCase.get_taxon(cs);
 
     //add Computer Science subcategories 
-    testCase.add_taxon(ds);
-    testCase.add_taxon(sp);
-    testCase.add_taxon(fc);
-    testCase.add_taxon(dm);
+    testCase.add_taxon(ds, csNode);
+    testCase.add_taxon(sp, csNode);
+    testCase.add_taxon(fc, csNode);
+    testCase.add_taxon(dm, csNode);
 
     //go back up to Art category to add its subcategories
-    testCase.findCategory(art);
+    int artNode = testCase.get_taxon(art);
 
     //add Art subcategories
-    testCase.add_taxon(pottery);
-    testCase.add_taxon(pp);
-    testCase.add_taxon(painting);
-    testCase.add_taxon(drawing);
+    testCase.add_taxon(pottery, artNode);
+    testCase.add_taxon(pp, artNode);
+    testCase.add_taxon(painting, artNode);
+    testCase.add_taxon(drawing, artNode);
 
     //print tree! 
-    COUT << "Test Tree:" << ENDL;
-    testCase.printTaxonomy();
+    COUT << "Final Test Case Tree Taxonomy:" << ENDL;
+    testCase.print_tree();
+    COUT << ENDL << ENDL;
 
-    //test adding a sample file 
-    char text[26];
+    //create two sample files to add to taxonomy in different locations 
+    File file1;
+    file1.set_name("file example 1");
+    file1.set_data("sample text for file 1");
 
-    fstream file;
-    file.open("example.txt", ios::out | ios::in );
+    File file2;
+    file2.set_name("file example 2");
+    file2.set_data("sample text for file 2");
 
-    COUT << "adding text to sample file" << ENDL;
-    CIN.getline(text, sizeof(text));
+    //insert test files into taxonomy
+    testCase.add_file(file1);
+    testCase.add_file(file2);
 
-    //writing on file 
-    file << text << ENDL;
+    //print list of files 
+    COUT << "Files in taxonomy: " << ENDL;
+    testCase.print_file_list();
+    COUT << ENDL << ENDL;
 
-    //Testing example file: reads info in file 
-    file >> text;
-    COUT << text << ENDL;
+    //print text inside of files 
+    COUT << "Text inside file 1: " << ENDL;
+    testCase.print_file(0);
+    COUT << ENDL;
+    COUT << "Text inside file 2: " << ENDL;
+    testCase.print_file(1);
+    COUT << ENDL;
 
-    //closing sample file
-    file.close();
+    //links to different locations 
+    testCase.link(0, csNode);
+    testCase.link(1, artNode);
 
-    //make fstream file an object of File class that we created (for two files containing same info)
-    File testFile = add_file("testFile", 10, file); //templated data for the file in this case is the fstream object 
-    File testFile2 = add_file("testFile2", 10, file);
+    //print tree with files at this stage
+    COUT << "Complete tree with files now linked. File 1 linked to computer science taxon and File 2 linked to art taxon: " << ENDL;
+    testCase.print_tree();
+    COUT << ENDL << ENDL;
 
-    //insert test file into taxonomy at current location 
-    testCase.add_file(testFile);
+    //link file 2 to computer science and notes and systems programming as well (test of two files to one node and one file to more than one node)
+    int spNode = testCase.get_taxon(sp);
+    int notesNode = testCase.get_taxon(notes);
+    testCase.link(1, csNode);
+    testCase.link(1, spNode);
+    testCase.link(1, notesNode);
 
-    //search for file by name
-    testCase.findFile(testFile);
+    COUT << "File 2 now links to computer science, systems programming, and notes taxons as well (test of a taxon pointing to more than one file from a different category and a file being linked to multiple taxons): " << ENDL;
+    testCase.print_tree();
+    COUT << ENDL << ENDL;
 
-    //test finding category that file is stored under 
-    testCase.findFileCategory(testFile);
+    //print file taxons test
+    COUT << "File 2 points to taxons: " << ENDL;
+    testCase.print_file_taxons(1);
+    COUT << ENDL << ENDL;
 
-    //add test file into a different category of taxonomy 
-    //first, traverse to different level 
-    testCase.findCategory(cs);
+    //test of unlinking 
+    testCase.unlink(1, artNode);
 
-    //add file at present location
-    testCase.add_file(testFile2);
+    COUT << "File 2 now unlinked from art taxon:" << ENDL;
+    testCase.print_tree();
+    COUT << ENDL << ENDL;
 
-    //search for for file by name 
-    testCase.findFile(testFile2);
+    //test of deleting a file
+    testCase.del_file(1);
 
-    //test finding category that second file is stored under 
-    testCase.findFileCategory(testFile2);
-
-    //print taxonomy one last time 
-    testCase.printTaxonomy();
+    COUT << "Complete tree after deleting file 2:" << ENDL;
+    testCase.print_tree();
+    COUT << ENDL << ENDL;
 
     return 0;
 }
