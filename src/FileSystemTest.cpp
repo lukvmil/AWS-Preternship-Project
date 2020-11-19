@@ -75,7 +75,12 @@ void addFiles(FileSystem &fs){
     // add to file system
     fs.add_file(f);
     for (int i = 0; i < fileTaxons.size(); ++i) {
-      fs.link(fs.get_file("file"), fs.get_taxon(fileTaxons[i]));
+      int taxon_id = fs.get_taxon(fileTaxons[i]);
+      if (taxon_id != -1) {
+        fs.link(fs.get_file("file"), taxon_id);
+      } else {
+        std::cout << "Link failed. Taxon not found." << std::endl;
+      }
     }
     // ask if there is further input
     COUT << "Do you want to add more categories? [y/n]";

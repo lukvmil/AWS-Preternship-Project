@@ -192,7 +192,7 @@ public:
 
         for (uint i = 0; i < node->get_num_edges(); i++) {
             if (depth) {
-                send_str = head + (last ? "    " : "|   ");
+                send_str = head + (last ? "    " : "│   ");
             }
 
             print_tree(

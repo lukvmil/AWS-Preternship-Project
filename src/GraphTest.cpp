@@ -18,6 +18,6 @@ int main() {
     graph.add_edge(2, 4);
     graph.add_edge(2, 5);
     graph.add_edge(2, 6);
-
     graph.print_graph();
+    
 }
