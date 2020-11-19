@@ -8,7 +8,7 @@ SRC := src
 OBJ := obj
 EXE := exe
 
-all: GraphTest FileSystemTest FileSystemTestCase CLI
+all: GraphTest FileSystemTest FileSystemTestCase CLI TreeTest
 
 GraphTestObjs := $(OBJ)/GraphTest.o
 GraphTest: $(GraphTestObjs)

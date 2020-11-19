@@ -74,7 +74,7 @@ void addFiles(FileSystem &fs){
     } while(continueInput == 'y');
     // add to file system
     fs.add_file(f);
-    for (int i = 0; i < fileTaxons.size(); ++i) {
+    for (unsigned int i = 0; i < fileTaxons.size(); ++i) {
       int taxon_id = fs.get_taxon(fileTaxons[i]);
       if (taxon_id != -1) {
         fs.link(fs.get_file("file"), taxon_id);
@@ -150,7 +150,7 @@ void searchByTaxon(FileSystem &fs){
     CIN >> continueInput;
   } while (continueInput == 'y');
   // find the file
-  for (int i = 0; i < fileTaxons.size(); ++i) {
+  for (unsigned int i = 0; i < fileTaxons.size(); ++i) {
     fs.get_taxon(fileTaxons[i]);
   }
   
