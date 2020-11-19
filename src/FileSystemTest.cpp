@@ -24,7 +24,7 @@
 * This function adds user inputted taxons
 * to the passed FileSystem
 *************************************/
-void addTaxons(&FileSystem fs){
+void addTaxons(FileSystem &fs){
   COUT << ENDL << "Adding Taxons" << ENDL;
   std::string name, parent;
   char continueInput;
@@ -49,7 +49,7 @@ void addTaxons(&FileSystem fs){
 * This function adds user inputted files
 * to the passed FileSystem
 *************************************/
-void addFiles(&FileSystem fs){
+void addFiles(FileSystem &fs){
   std::string input;
   char continueInput;
   COUT << "Adding Files" << ENDL;
@@ -65,7 +65,7 @@ void addFiles(&FileSystem fs){
     std::vector <std::string> fileTaxons;
     do{
       // get file taxons
-      COUT << "What category does the file belong to? ";
+      COUT << "What category does the file belong to? " << ENDL;
       CIN >> input;
       fileTaxons.push_back(input);
       // ask if there is further input
@@ -75,7 +75,7 @@ void addFiles(&FileSystem fs){
     // add to file system
     fs.add_file(f);
     for (int i = 0; i < fileTaxons.size(); ++i) {
-      fs.link("file", fileTaxons[i]);
+      fs.link(fs.get_file("file"), fs.get_taxon(fileTaxons[i]));
     }
     // ask if there is further input
     COUT << "Do you want to add more categories? [y/n]";
@@ -92,8 +92,8 @@ void addFiles(&FileSystem fs){
 * This function prints out the passed
 * FileSystem object
 *************************************/
-void printFileSystem(&FileSystem fs){
-  COUT << fs << ENDL;
+void printFileSystem(FileSystem &fs){
+  fs.print_tree();
 }
 
 /************************************
@@ -104,7 +104,7 @@ void printFileSystem(&FileSystem fs){
 * This function prints out all of the taxons in the
 * passed FileSystem object
 *************************************/
-void printTaxons(&FileSystem fs){
+void printTaxons(FileSystem &fs){
   fs.print_tree_list();
 }
 
@@ -116,7 +116,7 @@ void printTaxons(&FileSystem fs){
 * This function searches the FileSystem
 * for a user specified file name
 *************************************/
-void searchByName(&FileSystem fs){
+void searchByName(FileSystem &fs){
   std::string input;
   COUT << "What file are you searching for? ";
   CIN >> input;
@@ -131,9 +131,10 @@ void searchByName(&FileSystem fs){
 * This function searches the FileSystem
 * for a file matching user specified taxons
 *************************************/
-void searchByTaxon(&FileSystem fs){
+void searchByTaxon(FileSystem &fs){
   std::vector <std::string> fileTaxons;
   std::string input;
+  char continueInput;
   do {
     // get user input and store in vector
     COUT << "What category does the file you are searching for belong to? ";
@@ -145,7 +146,7 @@ void searchByTaxon(&FileSystem fs){
   } while (continueInput == 'y');
   // find the file
   for (int i = 0; i < fileTaxons.size(); ++i) {
-    fs.print_tree(fileTaxons[i]);
+    fs.get_taxon(fileTaxons[i]);
   }
   
 }
@@ -159,12 +160,12 @@ void searchByTaxon(&FileSystem fs){
 * specified file from the passed
 * FileSystem
 *************************************/
-void deleteFile(&FileSystem fs){
+void deleteFile(FileSystem &fs){
   //std::string fileName, size, data;
   std::string fileName;
   COUT << "What file would you like to delete? ";
   CIN >> fileName;
-  fs.del_file(fileName);
+  fs.del_file(fs.get_file(fileName));
 }
 
 /************************************
@@ -176,10 +177,10 @@ void deleteFile(&FileSystem fs){
 * specified taxon from the passed
 * FileSystem
 *************************************/
-void deleteTaxon(&FileSystem fs){
+void deleteTaxon(FileSystem &fs){
   std::string taxonName;
   COUT << "What category would you like to delete? ";
-  fs.del_taxon(taxonName);
+  fs.del_taxon(fs.get_file(taxonName));
 }
 
 /************************************
@@ -191,11 +192,12 @@ void deleteTaxon(&FileSystem fs){
 * allows the user to build and traverse
 * their FileSystem
 *************************************/
-void commandMenu(&FileSystem fs) {
+void commandMenu(FileSystem &fs) {
     char input;
     // loop until the user chooses to exit
     while (input != 'q'){
       // print the menu
+      COUT << ENDL << ENDL;
       COUT << "Press 1 to enter a new category to the FileSystem" << ENDL;
       COUT << "Press 2 to add a file to the FileSystem" << ENDL;
       COUT << "Press 3 to print the system." << ENDL;
@@ -205,6 +207,8 @@ void commandMenu(&FileSystem fs) {
       COUT << "Press 7 to delete a file by name." << ENDL;
       COUT << "Press 8 to delete a taxon." << ENDL;
       COUT << "Press q to quit." << ENDL;
+
+      CIN >> input;
 
       // add a new taxon
       if (input == '1') {
