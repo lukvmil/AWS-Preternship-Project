@@ -33,11 +33,8 @@ void addTaxons(&FileSystem fs){
     // ask for user input
     COUT << "What category would you like to include? ";
     CIN >> name;
-    COUT >> "What is the parent of the category being added? ";
-    CIN >> parent;
     // add input to file system
-    Taxon t (name, parent);
-    fs.add_taxon(t);
+    fs.add_taxon(name);
     // ask if there is further input
     COUT << "Do you want to add more categories? [y/n]";
     CIN >> continueInput;
@@ -62,10 +59,6 @@ void addFiles(&FileSystem fs){
     // get file name
     COUT << "What file would you like to include? ";
     CIN >> fileName;
-    COUT << "What is the size of the file? ";
-    CIN >> size;
-    COUT >> "What data is in the file? ";
-    std::getline(CIN, data);
     File f;
     f.set_name("file");
     // second loop to tag files with user defined taoxns
@@ -112,7 +105,7 @@ void printFileSystem(&FileSystem fs){
 * passed FileSystem object
 *************************************/
 void printTaxons(&FileSystem fs){
-  print_tree_list();
+  fs.print_tree_list();
 }
 
 /************************************
@@ -171,12 +164,6 @@ void deleteFile(&FileSystem fs){
   std::string fileName;
   COUT << "What file would you like to delete? ";
   CIN >> fileName;
-  //COUT << "What is the size of the file? ";
-  //CIN >> size;
-  //COUT >> "What data is in the file? ";
-  //std::getline(CIN, data);
-  //File f;
-  //f.set_name(fileName);
   fs.del_file(fileName);
 }
 
