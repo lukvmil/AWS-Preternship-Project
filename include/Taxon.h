@@ -20,6 +20,7 @@ private:
     std::vector<uint> files;
 
 public:
+    Taxon() : name(), id(), parent(), deleted(), files() {}
     Taxon(std::string name_in, uint parent_id) : name(name_in), id(), parent(parent_id), deleted(false), files() {}
 
     ~Taxon() {}
