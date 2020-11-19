@@ -7,15 +7,73 @@
 
 int main() {
     FileSystem fs;
+
+    std::string school = "School";
+
+    std::string type = "Type";
+    std::string notes = "Notes";
+    std::string hw = "Homework";
+    std::string tests = "Tests";
+
+
+    std::string major = "Major";
+
+    std::string cs = "Computer_Science";
+    std::string ds = "Data_Structures";
+    std::string sp = "Systems_Programming";
+    std::string fc = "Fundamentals_of_Computing";
+    std::string dm = "Discrete_Math";
+
+    std::string art = "Art";
+    std::string pottery = "Pottery";
+    std::string pp = "Pinch_Pot";
+    std::string painting = "Painting";
+    std::string drawing = "Drawing";
+
+    //first category of taxonomy is school 
+    fs.add_taxon(school); //inserts at root 
+    int schoolNode = fs.get_taxon(school);
+    fs.add_taxon(type, schoolNode);
+    int typeNode = fs.get_taxon(type);
+    fs.add_taxon(notes, typeNode);
+    fs.add_taxon(hw, typeNode);
+    fs.add_taxon(tests, typeNode);
+    fs.add_taxon(major, schoolNode);
+    int majorNode = fs.get_taxon(major);
+    fs.add_taxon(cs, majorNode);
+    fs.add_taxon(art, majorNode);
+    int csNode = fs.get_taxon(cs);
+    fs.add_taxon(ds, csNode);
+    fs.add_taxon(sp, csNode);
+    fs.add_taxon(fc, csNode);
+    fs.add_taxon(dm, csNode);
+    int artNode = fs.get_taxon(art);
+    fs.add_taxon(pottery, artNode);
+    fs.add_taxon(pp, artNode);
+    fs.add_taxon(painting, artNode);
+    fs.add_taxon(drawing, artNode);
+    File file1;
+    file1.set_name("file example 1");
+    file1.set_data("sample text for file 1");
+    File file2;
+    file2.set_name("file example 2");
+    file2.set_data("sample text for file 2");
+    fs.add_file(file1);
+    fs.add_file(file2);
+    fs.link(0, csNode);
+    fs.link(1, artNode);
+    int spNode = fs.get_taxon(sp);
+    int notesNode = fs.get_taxon(notes);
+    fs.link(1, csNode);
+    fs.link(1, spNode);
+    fs.link(1, notesNode);
+
     Taxon taxon;
     File file;
     int curr_taxon = 0;
     std::string line;
     std::string c_name;
     std::string c_param;
-
-    fs.add_taxon("test");
-    fs.add_taxon("yo");
 
     while (1) {
         std::cout << "> ";
@@ -59,6 +117,17 @@ int main() {
             curr_taxon = fs.DFS(c_param, curr_taxon);
         } else if (c_name == "moveup") {
             curr_taxon = fs.get_taxon_obj(curr_taxon).get_parent();
+        } else if (c_name == "compare") {
+            int t1, t2;
+            std::vector<int> comps;
+            iss >> c_param;
+            t1 = fs.DFS(c_param);
+            iss >> c_param;
+            t2 = fs.DFS(c_param);
+            comps = fs.intersection_search(t1, t2);
+            for (unsigned int i = 0; i < comps.size(); i++) {
+                std::cout << comps[i] << std::endl;
+            }
         }
 
         // if (!(std::cin >> input >> input >> input)) break;

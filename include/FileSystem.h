@@ -30,15 +30,17 @@ public:
 
     // adding files checks to fill spots of deleted files first
     int add_file(File new_file) {
+        // if there are no vacancies, it adds a new file to the files vector
         if (f_vacancies.empty()) {
             new_file.set_id((uint) files.size());
             files.push_back(new_file);
+        // if there is a vacancy, uses the first available id
         } else {
             new_file.set_id(f_vacancies.front());
             files[f_vacancies.front()] = new_file;
             f_vacancies.pop();
         }
-
+        // returns newly added file's id
         return new_file.get_id();
     }
 
@@ -46,14 +48,18 @@ public:
     void del_file(int f) {
         File* file = &files[f];
 
+        // iteratively removes any taxon links to the file
         for (uint i = 0; i < file->get_num_taxons(); i++) {
             verts[file->get_taxon(i)].del_file(file->get_id());
         }
 
+        // sets file state to deleted
         file->del();
+        // opens up spot for new file
         f_vacancies.push(file->get_id());
     }
 
+    // linear search for file name, returns id
     int get_file(std::string name) {
         for (uint i = 0; i < files.size(); i++) {
             if (files[i].get_name() == name) {
@@ -61,12 +67,14 @@ public:
             }
         }
         return -1;
-    }
+    }  
 
+    // returns a file object from its id
     File& get_file_obj(int id) {
         return files[id];
     }
 
+    // returns a taxon obj from its id
     Taxon& get_taxon_obj(int id) {
         return verts[id];
     }
@@ -100,6 +108,25 @@ public:
         taxon->del_file(file->get_id());
     }
 
+    std::vector<int> intersection_search(int tid1, int tid2) {
+        std::vector<int> file_ids;
+        Taxon t1 = get_taxon_obj(tid1);
+        Taxon t2 = get_taxon_obj(tid2);
+        int f_id1, f_id2;
+        for (unsigned int i = 0; i < t1.get_num_files(); i++) {
+            f_id1 = t1.get_file(i);
+
+            for (unsigned int j = 0; j < t2.get_num_files(); j++) {
+                f_id2 = t2.get_file(i);
+                if (f_id1 == f_id2) {
+                    file_ids.push_back(f_id1);
+                }
+            }
+        }
+        return file_ids;
+    }
+
+    // prints the vector containing all the files
     void print_file_list() {
         std::cout << "Number of files: " << files.size() << " (" << f_vacancies.size() << " vacancies)" << std::endl;
         for (uint i = 0; i < files.size(); i++) {
@@ -111,10 +138,12 @@ public:
         }
     }
 
+    // prints the text data stored in a file
     void print_file(int f) {
         std::cout << files[f].get_data() << std::endl;
     }
 
+    // prints all of the taxons a file is linked to
     void print_file_taxons(int f) {
         File* file = &files[f];
 
@@ -132,6 +161,7 @@ public:
         }
     }
 
+    // prints all of the files a taxon is linked to
     void print_taxon_files(int t) {
         Taxon* taxon = &verts[t];
         if (taxon->alive()) {
@@ -151,6 +181,7 @@ public:
         }
     }
 
+    // prints out a visualization of the tree
     void print_tree(uint curr=0, uint depth=0, bool last=false, std::string head="") {
         Taxon* node = &verts[curr];
         std::string disp_str = "";
@@ -177,31 +208,5 @@ public:
             );
         }
     }
-
-
-
-    // void findFile(File<T> inputFile) { //ADJUST LATER
-    //     int tempLocation = -1;
-    //     for (int i = 0; i < graph.verts.length(); ++i) {
-    //         if (graph.verts[i] == inputFile) {
-    //             tempLocation = graph.verts[i];
-    //             location = tempLocation;
-    //         }
-    //     }
-    //     if (tempLocation == -1) {
-    //         COUT << "Our apologies, the requested file does not exist in your catalog. " << ENDL;
-    //     }
-
-    // }
-
-    // void findFileCategory(std::string taxon) {
-    //     int loc = tree.find_taxon(taxon);
-    //     if (loc != -1) {
-    //         COUT << "The taxon exists at location " << loc << ENDL;
-    //     }
-    //     else {
-    //         COUT << "The taxon you're searching for doesn't exist in your taxonomy." << ENDL;
-    //     }
-    // }
 };
 #endif
