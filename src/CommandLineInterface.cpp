@@ -124,13 +124,17 @@ int main() {
             t1 = fs.DFS(c_param);
             iss >> c_param;
             t2 = fs.DFS(c_param);
-            comps = fs.intersection_search(t1, t2);
-            for (unsigned int i = 0; i < comps.size(); i++) {
-                std::cout << comps[i] << std::endl;
+            if (t1 != -1 && t2 != -1) {
+                comps = fs.intersection_search(t1, t2);
+                for (unsigned int i = 0; i < comps.size(); i++) {
+                    std::cout << fs.get_file_obj(comps[i]).get_name() << std::endl;
+                }
+            } else {
+                std::cout << "No files found" << std::endl;
             }
+            
         }
 
-        // if (!(std::cin >> input >> input >> input)) break;
 
     }
 

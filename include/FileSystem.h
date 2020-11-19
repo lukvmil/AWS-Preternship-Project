@@ -115,9 +115,8 @@ public:
         int f_id1, f_id2;
         for (unsigned int i = 0; i < t1.get_num_files(); i++) {
             f_id1 = t1.get_file(i);
-
             for (unsigned int j = 0; j < t2.get_num_files(); j++) {
-                f_id2 = t2.get_file(i);
+                f_id2 = t2.get_file(j);
                 if (f_id1 == f_id2) {
                     file_ids.push_back(f_id1);
                 }
