@@ -63,10 +63,18 @@ public:
         return -1;
     }
 
+    File& get_file_obj(int id) {
+        return files[id];
+    }
+
+    Taxon& get_taxon_obj(int id) {
+        return verts[id];
+    }
+
     void del_taxon(int t_id) {
         // detaches all files from deleted taxon
         Taxon* taxon = &verts[t_id];
-        for (int f_id = 0; f_id < taxon->get_num_files(); f_id++) {
+        for (unsigned int f_id = 0; f_id < taxon->get_num_files(); f_id++) {
             unlink(taxon->get_file(f_id), t_id);
         }
 
@@ -127,7 +135,9 @@ public:
     void print_taxon_files(int t) {
         Taxon* taxon = &verts[t];
         if (taxon->alive()) {
-            std::cout << taxon->get_name() << " -> ";
+            std::cout << taxon->get_name();
+            if (taxon->get_num_files())
+                std::cout << " -> ";
             for(uint i = 0; i < taxon->get_num_files(); i++) {
                 std::cout << files[taxon->get_file(i)].get_name();
                 if (i < taxon->get_num_files() - 1) {
@@ -151,6 +161,7 @@ public:
         }
 
         std::cout << disp_str;
+        // if (node->get_num_files())
         print_taxon_files(curr);
 
         for (uint i = 0; i < node->get_num_edges(); i++) {

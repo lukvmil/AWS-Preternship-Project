@@ -13,33 +13,7 @@ class Tree: public Graph<Taxon> {
 protected:
     std::queue<uint> vacancies;
 
-    // depth first search
-    int DFS(std::string name, uint start=0) {
-        std::stack<uint> next_node;
-        uint curr_node;
-
-        next_node.push(start);
-
-        while (!next_node.empty()) {
-            curr_node = next_node.top();
-            next_node.pop();
-
-            // returns node value if requested taxon is found
-            if (verts[curr_node].get_name() == name) {
-                return curr_node;
-            }
-
-            // iterates through all edges in the current node
-            for (uint i = 0; i < verts[curr_node].get_num_edges(); i++) {
-                // adds each to the stack
-                next_node.push(verts[curr_node].get_edge(i));
-            }
-        }
-
-        std::cout << "DFS Error: Requested node \"" << name << "\" does not exist." << std::endl; 
-        return -1;
-    }
-
+    
     bool is_child_of(uint child, uint parent) {
         std::stack<uint> next_node;
         uint curr_node;
@@ -83,6 +57,34 @@ public:
     // virtual destructor
     virtual ~Tree() {}
 
+    // depth first search
+    int DFS(std::string name, uint start=0) {
+        std::stack<uint> next_node;
+        uint curr_node;
+
+        next_node.push(start);
+
+        while (!next_node.empty()) {
+            curr_node = next_node.top();
+            next_node.pop();
+
+            // returns node value if requested taxon is found
+            if (verts[curr_node].get_name() == name) {
+                return curr_node;
+            }
+
+            // iterates through all edges in the current node
+            for (uint i = 0; i < verts[curr_node].get_num_edges(); i++) {
+                // adds each to the stack
+                next_node.push(verts[curr_node].get_edge(i));
+            }
+        }
+
+        std::cout << "DFS Error: Requested node \"" << name << "\" does not exist." << std::endl; 
+        return -1;
+    }
+
+
     int add_taxon(std::string name, int parent_id = 0) {
         int child_id;
 
@@ -99,7 +101,7 @@ public:
             // fills vacancy
             child_id = (int) vacancies.front();
             child.set_id(child_id);
-            std::cout << "using " << child_id << std::endl;
+            // std::cout << "using " << child_id << std::endl;
             vacancies.pop();
 
             // overrides deleted taxon

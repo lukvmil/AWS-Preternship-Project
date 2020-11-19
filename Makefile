@@ -42,21 +42,14 @@ TreeTest: $(TreeTestObjs)
 $(OBJ)/TreeTest.o: $(SRC)/TreeTest.cpp
 	$(PP) $(CXXFLAGS) -c $(SRC)/TreeTest.cpp -o $@
 
-FSTestObjs := $(OBJ)/FSTest.o
-FSTest: $(FSTestObjs)
-	$(PP) $(CXXFLAGS) -o $(EXE)/FSTest $(FSTestObjs)
-	$(EXE)/./FSTest
+CLIObjs := $(OBJ)/CLI.o
+CLI: $(CLIObjs)
+	$(PP) $(CXXFLAGS) -o $(EXE)/CLI $(CLIObjs)
+	$(EXE)/./CLI
 
-$(OBJ)/FSTest.o: $(SRC)/FSTest.cpp
-	$(PP) $(CXXFLAGS) -c $(SRC)/FSTest.cpp -o $@
+$(OBJ)/CLI.o: $(SRC)/CommandLineInterface.cpp
+	$(PP) $(CXXFLAGS) -c $(SRC)/CommandLineInterface.cpp -o $@
 
-FileSysTestObjs := $(OBJ)/FileSysTest.o
-FileSysTest: $(FileSysTestObjs)
-	$(PP) $(CXXFLAGS) -o $(EXE)/FileSysTest $(FSTestObjs)
-	$(EXE)/./FileSysTest
-
-$(OBJ)/FileSysTest.o: $(SRC)/FileSysTest.cpp
-	$(PP) $(CXXFLAGS) -c $(SRC)/FileSysTest.cpp -o $@
 
 initialize: 
 	mkdir $(OBJ) $(EXE)
